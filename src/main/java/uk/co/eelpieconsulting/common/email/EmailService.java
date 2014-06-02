@@ -33,7 +33,7 @@ public class EmailService {
 		this.smtpPassword = smtpPassword;
 	}
 
-	public void sendPlaintextEmail(final String subject, final String from, final String body, final String to) throws EmailException {
+	public void sendPlaintextEmail(final String subject, final String from, final String to, final String body) throws EmailException {
 		log.info("Sending plain text email to: " + to + " using " + smtpHost + " port " + smtpPort);
 		final Email email = new SimpleEmail();
 		setHeaders(email, to, from, subject);
