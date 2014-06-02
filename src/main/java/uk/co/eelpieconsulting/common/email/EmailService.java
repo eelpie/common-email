@@ -17,6 +17,14 @@ public class EmailService {
 	private final int smtpPort;
 	private final boolean sslOn;
 
+	public EmailService(String smtpHost, int smtpPort) {
+		this.smtpHost = smtpHost;
+		this.smtpPort = smtpPort;
+		this.sslOn = false;
+		this.smtpUsername = null;
+		this.smtpPassword = null;
+	}
+	
 	public EmailService(String smtpHost, int smtpPort, boolean sslOn, String smtpUsername, String smtpPassword) {
 		this.smtpHost = smtpHost;
 		this.smtpPort = smtpPort;
