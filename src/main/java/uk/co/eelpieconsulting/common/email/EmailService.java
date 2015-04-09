@@ -34,12 +34,16 @@ public class EmailService {
 	}
 
 	public void sendPlaintextEmail(final String subject, final String from, final String to, final String body) throws EmailException {
+		sendPlaintextEmail(subject, from, to, body, null);
+	}
+	
+	public void sendPlaintextEmail(final String subject, final String from, final String to, final String body, String bcc) throws EmailException {
 		log.info("Sending plain text email to: " + to + " using " + smtpHost + " port " + smtpPort);
 		final Email email = new SimpleEmail();
-		setHeaders(email, to, from, subject);
-
+		setHeaders(email, to, from, subject, bcc);
+				
 		email.setMsg(body);
-
+		
 		applySmtpSettings(email);
 		email.send();
 		log.info("Email sent");
@@ -49,7 +53,7 @@ public class EmailService {
 		log.info("Sending html email to: " + to + " using " + smtpHost + " port " + smtpPort);
 
 		final HtmlEmail email = new HtmlEmail();
-		setHeaders(email, to, from, subject);
+		setHeaders(email, to, from, subject, null);
 
 		email.setTextMsg(plaintext);
 		email.setHtmlMsg(html);
@@ -59,10 +63,13 @@ public class EmailService {
 		log.info("Email sent");
 	}
 
-	private void setHeaders(final Email email, final String to, final String from, final String subject) throws EmailException {
+	private void setHeaders(final Email email, final String to, final String from, final String subject, String bcc) throws EmailException {
 		email.addTo(to);
 		email.setFrom(from);
 		email.setSubject(subject);
+		if (bcc != null) {
+			email.addBcc(bcc);
+		}
 	}
 
 	private void applySmtpSettings(final Email email) {
