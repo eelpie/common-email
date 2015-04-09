@@ -50,19 +50,23 @@ public class EmailService {
 	}
 
 	public void sendHtmlEmail(final String subject, final String from, final String to, final String plaintext, String html) throws EmailException {
+		sendHtmlEmail(subject, from, to, plaintext, html, null);
+	}
+	
+	public void sendHtmlEmail(final String subject, final String from, final String to, final String plaintext, String html, String bcc) throws EmailException {
 		log.info("Sending html email to: " + to + " using " + smtpHost + " port " + smtpPort);
-
+		
 		final HtmlEmail email = new HtmlEmail();
-		setHeaders(email, to, from, subject, null);
-
+		setHeaders(email, to, from, subject, bcc);
+		
 		email.setTextMsg(plaintext);
 		email.setHtmlMsg(html);
-
+		
 		applySmtpSettings(email);
 		email.send();
 		log.info("Email sent");
 	}
-
+	
 	private void setHeaders(final Email email, final String to, final String from, final String subject, String bcc) throws EmailException {
 		email.addTo(to);
 		email.setFrom(from);
