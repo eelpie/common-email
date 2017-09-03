@@ -33,11 +33,11 @@ public class EmailService {
 		this.smtpPassword = smtpPassword;
 	}
 
-	public void sendPlaintextEmail(final String subject, final String from, final String to, final String body) throws EmailException {
+	public void sendPlaintextEmail(final String subject, final From from, final String to, final String body) throws EmailException {
 		sendPlaintextEmail(subject, from, to, body, null);
 	}
 	
-	public void sendPlaintextEmail(final String subject, final String from, final String to, final String body, String bcc) throws EmailException {
+	public void sendPlaintextEmail(final String subject, final From from, final String to, final String body, String bcc) throws EmailException {
 		log.info("Sending plain text email to: " + to + " using " + smtpHost + " port " + smtpPort);
 		final Email email = new SimpleEmail();
 		setHeaders(email, to, from, subject, bcc);
@@ -49,11 +49,11 @@ public class EmailService {
 		log.info("Email sent");
 	}
 
-	public void sendHtmlEmail(final String subject, final String from, final String to, final String plaintext, String html) throws EmailException {
+	public void sendHtmlEmail(final String subject, final From from, final String to, final String plaintext, String html) throws EmailException {
 		sendHtmlEmail(subject, from, to, plaintext, html, null);
 	}
 	
-	public void sendHtmlEmail(final String subject, final String from, final String to, final String plaintext, String html, String bcc) throws EmailException {
+	public void sendHtmlEmail(final String subject, final From from, final String to, final String plaintext, String html, String bcc) throws EmailException {
 		log.info("Sending html email to: " + to + " using " + smtpHost + " port " + smtpPort);
 		
 		final HtmlEmail email = new HtmlEmail();
@@ -67,12 +67,17 @@ public class EmailService {
 		log.info("Email sent");
 	}
 	
-	private void setHeaders(final Email email, final String to, final String from, final String subject, String bcc) throws EmailException {
+	private void setHeaders(final Email email, final String to, final From from, final String subject, String bcc) throws EmailException {
 		email.addTo(to);
-		email.setFrom(from);
 		email.setSubject(subject);
 		if (bcc != null) {
 			email.addBcc(bcc);
+		}
+
+		if (from.getName() != null) {
+			email.setFrom(from.getAddress());
+		} else {
+			email.setFrom(from.getAddress(), from.getName());
 		}
 	}
 

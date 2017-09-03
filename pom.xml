@@ -12,7 +12,7 @@
 	<artifactId>common-email</artifactId>
 	<packaging>jar</packaging>
 	<name>common-email</name>
-	<version>1.0.3</version>
+	<version>1.0.4</version>
 	<description>Documents the usage of Apache Commons email</description>
 	
 	<build>
